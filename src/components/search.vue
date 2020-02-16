@@ -43,7 +43,6 @@ export default {
           textFilter: this.search_term,
           locale: 'en_US',
           gameMode: 'battlegrounds',
-          collectible: 1,
         },
       })
         .then((response) => {
