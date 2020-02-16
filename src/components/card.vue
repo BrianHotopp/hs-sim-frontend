@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <h5 class="card-title">
-      {{ this.aCard.cardSet == 'Battlegrounds' ? 'Golden':'' }} {{this.aCard.name}}
+      {{this.aCard.name}}
     </h5>
     <p class="card-text">{{this.aCard.race}}</p>
     <a href="#" class="btn btn-primary">Play Me</a>
@@ -23,6 +23,7 @@ export default {
 .card {
   max-width: 14rem;
   height: 100%;
+  margin-bottom: 50px;
 }
 .image-wrapper {
   height:10rem;
