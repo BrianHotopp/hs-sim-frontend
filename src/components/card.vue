@@ -8,8 +8,8 @@
     <h5 class="card-title">
       {{this.aCard.name}}
     </h5>
-    <p class="card-text">{{this.aCard.race}}</p>
-    <a href="#" class="btn btn-primary">Play Me</a>
+    <!--only want to present the option to add to hand if the card is not in hand already-->
+    <button @click="click" class="btn btn-primary">Play Me</button>
   </div>
 </div>
 </template>
@@ -17,6 +17,10 @@
 export default {
   name: 'card',
   props: ['aCard'],
+  methods: {
+    click() {
+    },
+  },
 };
 </script>
 <style scoped>
