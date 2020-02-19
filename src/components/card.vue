@@ -1,7 +1,7 @@
 <template>
 <div class="card">
   <div class="image-wrapper">
-  <img :src="this.aCard.battlegrounds.image" class="card-img-top"
+  <img :src="this.aCard.img" class="card-img-top"
    alt="oops! no image to display">
   </div>
   <div class="card-body">
@@ -9,7 +9,11 @@
       {{this.aCard.name}}
     </h5>
     <!--only want to present the option to add to hand if the card is not in hand already-->
-    <button v-if = "!aCard.inHand" @click="click" class="btn btn-primary">Play Me</button>
+    <button v-if="!aCard.inHand" @click="click" class="btn btn-primary">Play</button>
+    <!-- there is an edit button on all cards no matter what -->
+    <button type="button" class="btn btn-secondary">
+          <font-awesome-icon icon="edit" />
+    </button>
   </div>
 </div>
 </template>
@@ -27,6 +31,7 @@ export default {
 </script>
 <style scoped>
 .card {
+  font-size: .75rem;
   max-width: 14rem;
   height: 100%;
   margin-bottom: 50px;

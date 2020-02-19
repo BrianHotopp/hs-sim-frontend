@@ -14,7 +14,8 @@ export default new Vuex.Store({
       // we have to copy the passed in card and use that
       // because we don't want the changes we make to the passed in card to persist
       // if the user immediately adds that same card again
-
+      const copiedCard = { ...cardFromApi };
+      copiedCard.inHand = true;
       console.log(cardFromApi);
       if (state.board.length >= 7) {
         // complain about trying to add too many cards to board
@@ -31,7 +32,7 @@ export default new Vuex.Store({
       // battlecries
       // let timesDamagedThisTurn = 0;
       console.log('attempting to add card');
-      switch (cardFromApi.name) {
+      switch (copiedCard.name) {
         case 'Alleycat':
           // call to api to get tabbycat, then recall add card with tabbycat
           Axios.get('https://us.api.blizzard.com/hearthstone/cards/40425')
@@ -82,8 +83,7 @@ export default new Vuex.Store({
         default:
                   // code block
       }
-
-      state.board.push(cardFromApi); // push the copied (and potentially modified)
+      state.board.push(copiedCard); // push the copied (and potentially modified)
       // card to our board
     },
   },

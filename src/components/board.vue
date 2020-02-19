@@ -2,7 +2,7 @@
 <div>
     <b-container>
         <b-row>
-            <b-col cols = "3" v-for="minion in board" :key = minion.id>
+            <b-col v-for="minion in board" :key = minion.id>
                 <card :aCard = minion></card>
             </b-col>
         </b-row>

@@ -6,7 +6,7 @@
     </form>
   <b-container>
     <b-row v-if="this.results">
-        <b-col cols = "3" v-for="result in this.results" :key = result.id>
+        <b-col cols = "2" v-for="result in this.results" :key = result.id>
           <card :aCard = result></card>
         </b-col>
     </b-row>
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       search_term: '',
-      results: null, // this will contain the result of the user's search
+      results: [], // this will contain the result of the user's search
     };
   },
   components: {
@@ -45,8 +45,26 @@ export default {
           gameMode: 'battlegrounds',
         },
       })
-        .then((response) => {
-          this.results = response.data.cards;
+        .then((apiresponse) => {
+          // grab only the things we care about from the jason response
+          let result = null;
+          for (let i = 0; i < apiresponse.data.cards.length; i += 1) {
+            result = apiresponse.data.cards[i];
+            this.results.push(
+              {
+                img: result.battlegrounds.image,
+                minion_type: result.minionTypeId,
+                children: result.childIds,
+                attack: result.attack,
+                health: result.health,
+                name: result.name,
+                cardid: result.id,
+                text: result.flavorText,
+                keywords: result.keyWordIds,
+                inHand: false,
+              },
+            );
+          }
         });
       this.search_term = 'done';
     },
