@@ -9,7 +9,7 @@
       {{this.aCard.name}}
     </h5>
     <!--only want to present the option to add to hand if the card is not in hand already-->
-    <button @click="click" class="btn btn-primary">Play Me</button>
+    <button v-if = "!aCard.inHand" @click="click" class="btn btn-primary">Play Me</button>
   </div>
 </div>
 </template>
@@ -19,6 +19,8 @@ export default {
   props: ['aCard'],
   methods: {
     click() {
+      console.log(this.aCard);
+      this.$store.commit('addCard', this.aCard);
     },
   },
 };

@@ -7,7 +7,6 @@
             </b-col>
         </b-row>
         <b-row>
-          {{ count }}
         </b-row>
     </b-container>
 </div>

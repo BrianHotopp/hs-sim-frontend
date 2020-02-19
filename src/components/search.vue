@@ -20,7 +20,7 @@ import card from './card.vue';
 const blizzardAPI = axios.create({
   baseURL: 'https://us.api.blizzard.com/hearthstone',
   headers: {
-    Authorization: 'Bearer USy8jnFHfEiRMHCsuZLqZw1HXvhYZD6mW2',
+    Authorization: 'Bearer US1A7OiSNY4czbdajzXHUx4mvdoKzk7tW1',
   },
 });
 export default {
