@@ -38,6 +38,7 @@ export default {
     onSubmit() {
       // blizzardAPI.get('https://us.api.blizzard.com/hearthstone/cards?locale=en_US&gameMode=battlegrounds&tier=hero%2C3&textFilter=mech&access_token=USaHVhmVPLx4OBZCRJ4d333EiIRyXKC46e')
       //   .then((response) => { console.log(response); });
+      this.results = []; // clear the array of previous searches
       blizzardAPI.get('/cards', {
         params: {
           textFilter: this.search_term,
@@ -46,22 +47,32 @@ export default {
         },
       })
         .then((apiresponse) => {
-          // grab only the things we care about from the jason response
+          // grab only the things we care about from the json response
           let result = null;
           for (let i = 0; i < apiresponse.data.cards.length; i += 1) {
             result = apiresponse.data.cards[i];
+            console.log(result);
             this.results.push(
               {
                 img: result.battlegrounds.image,
-                minion_type: result.minionTypeId,
-                children: result.childIds,
+                minion_type: result.minionTypeId, // an int representing murloc, beast etc
+                children: result.childIds, // minions associated with the current minion
+                // eg alleycat has tabbycat's id in its children array
                 attack: result.attack,
                 health: result.health,
                 name: result.name,
-                cardid: result.id,
+                cardid: result.id, // id unique to the minion
                 text: result.flavorText,
-                keywords: result.keyWordIds,
-                inHand: false,
+                keywords: result.keywordIds, // numbers representing taunt, dshield, etc
+                inHand: false, // determines whether or not to show play me button on card component
+                goes: null, // an indicator of where on the board this minion should go if we add
+                // it to the board using addCard in store.js
+                buffs: null, // an array of integers
+                // these integers are indices in this.$store.board
+                // indicating where the minion's buffs should go
+                // for minions that only buff one minion, buffs will contain one elment which
+                // indicates the minion they buff
+                // for minions that buff like 3 minions, there will be 3 integers and so on
               },
             );
           }
