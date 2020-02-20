@@ -21,38 +21,66 @@ export default new Vuex.Store({
         // complain about trying to add too many cards to board
         return;
       }
-      // takes a phat card object we got from the api
-      // maybe the user modified some variables
-      // converts it to an object containing a subset of that information
-      // adds that object to the application state
-      // what is a hook check?
-      // events triggered by the summoning of another minion
-      // eg the attack buff on tidecaller or the buff floating watcher gets on damage
-      // why should we handle battlecries before hook checks?
-      // battlecries
-      // let timesDamagedThisTurn = 0;
       console.log('attempting to add card');
+      let timesDamagedThisTurn = 0;
       switch (copiedCard.name) {
         case 'Alleycat':
           // call to api to get tabbycat, then recall add card with tabbycat
           Axios.get('https://us.api.blizzard.com/hearthstone/cards/40425')
-            .then((response) => {
-              this.addCard(response);
+            .then((result) => {
+              this.addCard( // prune the object from the api before calling addcard
+                {
+                  img: result.battlegrounds.image,
+                  minion_type: result.minionTypeId,
+                  children: result.childIds,
+                  attack: result.attack,
+                  health: result.health,
+                  name: result.name,
+                  cardid: result.id,
+                  text: result.flavorText,
+                  keywords: result.keyWordIds,
+                  inHand: false, // this gets set to true in addcard
+                },
+              );
             });
           break;
         case 'Pogo-Hopper':
+          copiedCard.health += (2 * state.pogo_count);
           state.pogo_count += 1;
           break;
         case 'Murloc Tidehunter':
           // code block
+          Axios.get('https://us.api.blizzard.com/hearthstone/cards/1078')
+            .then((result) => {
+              this.addCard( // prune the object from the api before calling addcard
+                {
+                  img: result.battlegrounds.image,
+                  minion_type: result.minionTypeId,
+                  children: result.childIds,
+                  attack: result.attack,
+                  health: result.health,
+                  name: result.name,
+                  cardid: result.id,
+                  text: result.flavorText,
+                  keywords: result.keyWordIds,
+                  inHand: false, // this gets set to true in addcard
+                },
+              );
+            });
           break;
         case 'Rockpool Hunter':
+          // todo how to select which card this will buff
           break;
         case 'Vulgar Homunculus':
-          // timesDamagedThisTurn += 1;
-          // console.log(this.timesDamagedThisTurn);
+          timesDamagedThisTurn += 1;
           break;
         case 'Coldlight Seer':
+          // give plus 2 health to all minions
+          for (let i = 0; i < state.board.size; i += 1) {
+            if (state.board[i].minion_type === 14) {
+              state.board[i].health += 2;
+            }
+          }
           break;
         case 'Metaltooth Leaper':
           break;
