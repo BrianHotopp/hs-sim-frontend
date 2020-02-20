@@ -65,7 +65,7 @@ export default {
                 text: result.flavorText,
                 keywords: result.keywordIds, // numbers representing taunt, dshield, etc
                 inHand: false, // determines whether or not to show play me button on card component
-                goes: null, // an indicator of where on the board this minion should go if we add
+                goes: 0, // an indicator of where on the board this minion should go if we add
                 // it to the board using addCard in store.js
                 buffs: null, // an array of integers
                 // these integers are indices in this.$store.board

@@ -23,56 +23,10 @@ export default new Vuex.Store({
         return;
       }
       console.log('attempting to add card');
-      // push the copied card to our board
+      // put the copiedcard in our board
       state.board.splice(copiedCard.goes, 0, copiedCard);
       // let timesDamagedThisTurn = 0;
       switch (copiedCard.name) {
-        case 'Alleycat':
-          // call to api to get tabbycat, then recall add card with tabbycat
-          Axios.get('https://us.api.blizzard.com/hearthstone/cards/40425')
-            .then((result) => {
-              this.addCard( // prune the object from the api before calling addcard
-                {
-                  img: result.battlegrounds.image,
-                  minion_type: result.minionTypeId,
-                  children: result.childIds,
-                  attack: result.attack,
-                  health: result.health,
-                  name: result.name,
-                  cardid: result.id,
-                  text: result.flavorText,
-                  keywords: result.keyWordIds,
-                  inHand: false,
-                },
-              );
-            });
-          break;
-        case 'Pogo-Hopper':
-          copiedCard.health += (2 * state.pogo_count);
-          state.pogo_count += 1;
-          break;
-        case 'Murloc Tidehunter':
-          // code block
-          Axios.get('https://us.api.blizzard.com/hearthstone/cards/1078')
-            .then((result) => {
-              this.addCard( // prune the object from the api before calling addcard
-                {
-                  img: result.battlegrounds.image,
-                  minion_type: result.minionTypeId,
-                  children: result.childIds,
-                  attack: result.attack,
-                  health: result.health,
-                  name: result.name,
-                  cardid: result.id,
-                  text: result.flavorText,
-                  keywords: result.keyWordIds,
-                  inHand: false, // this gets set to true in addcard
-                  goes: copiedCard.goes + 1, // the minion spawned by the battlecry should
-                  // go to the right of the minion
-                },
-              );
-            });
-          break;
         case 'Rockpool Hunter':
           // buff the element which is specified by the 0th
           // element in the card's buffs array
@@ -86,7 +40,7 @@ export default new Vuex.Store({
           break;
         case 'Coldlight Seer':
           // give plus 2 health to all murlocs
-          for (let i = 0; i < state.board.size; i += 1) {
+          for (let i = 0; i < state.board.length; i += 1) {
             if (state.board[i].minion_type === 14) {
               state.board[i].health += 2;
             }
@@ -94,8 +48,10 @@ export default new Vuex.Store({
           }
           break;
         case 'Metaltooth Leaper':
+          console.log('boob');
           // give plus 2 attack to all mechs
-          for (let i = 0; i < state.board.size; i += 1) {
+          for (let i = 0; i < state.board.length; i += 1) {
+            console.log(state.board[i].minion_type);
             if (state.board[i].minion_type === 17) {
               state.board[i].attack += 2;
             }
@@ -130,7 +86,7 @@ export default new Vuex.Store({
           }
           break;
         case 'Crystalweaver':
-          for (let i = 0; i < state.board.size; i += 1) {
+          for (let i = 0; i < state.board.length; i += 1) {
             if (state.board[i].minion_type === 15) { // demons
               state.board[i].attack += 1;
               state.board[i].health += 1;
@@ -139,12 +95,27 @@ export default new Vuex.Store({
           break;
         case 'Defender of Argus':
           // figure out how to control where the minion goes
+          // there are bugs here when there aren't minions on both sides getting buffed
+          state.board[copiedCard.goes + 1].health += 1;
+          state.board[copiedCard.goes + 1].attack += 1;
+          state.board[copiedCard.goes - 1].health += 1;
+          state.board[copiedCard.goes - 1].attack += 1;
+          state.board[copiedCard.goes + 1].keywords.push(1);
+          state.board[copiedCard.goes - 1].keywords.push(1);
           break;
         case 'Gentle Megasaur':
+          // todo this one confuses me
           break;
         case 'Houndmaster':
+          // buff stats
+          state.board[copiedCard.buffs[0]].health += 2;
+          state.board[copiedCard.buffs[0]].attack += 2;
+          // give taunt
+          state.board[copiedCard.buffs[0]].keywords.push(1);
           break;
         case 'Screwjank Clunker':
+          state.board[copiedCard.buffs[0]].health += 2;
+          state.board[copiedCard.buffs[0]].attack += 2;
           break;
         case 'Strongshell Scavenger':
           break;
@@ -158,6 +129,58 @@ export default new Vuex.Store({
           break;
         default:
                   // code block
+      }
+      switch (copiedCard.name) {
+        case 'Alleycat':
+          // call to api to get tabbycat, then recall add card with tabbycat
+          Axios.get('https://us.api.blizzard.com/hearthstone/cards/40425')
+            .then((result) => {
+              this.addCard( // prune the object from the api before calling addcard
+                {
+                  img: result.battlegrounds.image,
+                  minion_type: result.minionTypeId,
+                  children: result.childIds,
+                  attack: result.attack,
+                  health: result.health,
+                  name: result.name,
+                  cardid: result.id,
+                  text: result.flavorText,
+                  keywords: result.keyWordIds,
+                  inHand: false,
+                  goes: copiedCard.goes + 1,
+                  buffs: [],
+                },
+              );
+            });
+          break;
+        case 'Pogo-Hopper':
+          copiedCard.health += (2 * state.pogo_count);
+          state.pogo_count += 1;
+          break;
+        case 'Murloc Tidehunter':
+          // code block
+          Axios.get('https://us.api.blizzard.com/hearthstone/cards/1078')
+            .then((result) => {
+              this.addCard( // prune the object from the api before calling addcard
+                {
+                  img: result.battlegrounds.image,
+                  minion_type: result.minionTypeId,
+                  children: result.childIds,
+                  attack: result.attack,
+                  health: result.health,
+                  name: result.name,
+                  cardid: result.id,
+                  text: result.flavorText,
+                  keywords: result.keyWordIds,
+                  inHand: false, // this gets set to true in addcard
+                  goes: copiedCard.goes + 1, // the minion spawned by the battlecry should
+                  // go to the right of the minion
+                  buffs: [],
+                },
+              );
+            });
+          break;
+        default:
       }
     },
   },

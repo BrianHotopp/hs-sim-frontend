@@ -1,0 +1,13 @@
+- should keywords be a set data structure instead of a list
+- I should protect against buffs being given to the wrong minions
+- Raw modifying minions at buffs[n] index in my state.board is likely to cause array out of bounds errors and I should check for that
+- Token summon battlecries are broken
+- logic in add card should look like:
+    1) non token battlecries for a minion
+    2) add minion
+    3) token battlecries for the minion
+    4) see if hooks were triggered
+    - this is because if we summon the minion before we do non token battlecries, things like metaltooth leaper will buff themselves
+    - also if we do all battlecries at once and don't distinguish between token battlecries and non-token battlecries, if there are 6 minions on board when we play a token battlecry
+        that token will get onto the board and prevent the original minion from being played
+    - playing the minion must happen before hooks are triggered because floating watcher buffs itself if there is a wrath weaver
