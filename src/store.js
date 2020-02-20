@@ -132,26 +132,22 @@ export default new Vuex.Store({
       }
       switch (copiedCard.name) {
         case 'Alleycat':
-          // call to api to get tabbycat, then recall add card with tabbycat
-          Axios.get('https://us.api.blizzard.com/hearthstone/cards/40425')
-            .then((result) => {
-              this.addCard( // prune the object from the api before calling addcard
-                {
-                  img: result.battlegrounds.image,
-                  minion_type: result.minionTypeId,
-                  children: result.childIds,
-                  attack: result.attack,
-                  health: result.health,
-                  name: result.name,
-                  cardid: result.id,
-                  text: result.flavorText,
-                  keywords: result.keyWordIds,
-                  inHand: false,
-                  goes: copiedCard.goes + 1,
-                  buffs: [],
-                },
-              );
-            });
+          this.addCard( // prune the object from the api before calling addcard
+            {
+              img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
+              minion_type: 0,
+              children: [],
+              attack: 1,
+              health: 1,
+              name: 'Tabbycat',
+              cardid: 420690,
+              text: 'welcome to flavortown',
+              keywords: [],
+              inHand: false,
+              goes: copiedCard.goes + 1,
+              buffs: [],
+            },
+          );
           break;
         case 'Pogo-Hopper':
           copiedCard.health += (2 * state.pogo_count);
@@ -159,26 +155,22 @@ export default new Vuex.Store({
           break;
         case 'Murloc Tidehunter':
           // code block
-          Axios.get('https://us.api.blizzard.com/hearthstone/cards/1078')
-            .then((result) => {
-              this.addCard( // prune the object from the api before calling addcard
-                {
-                  img: result.battlegrounds.image,
-                  minion_type: result.minionTypeId,
-                  children: result.childIds,
-                  attack: result.attack,
-                  health: result.health,
-                  name: result.name,
-                  cardid: result.id,
-                  text: result.flavorText,
-                  keywords: result.keyWordIds,
-                  inHand: false, // this gets set to true in addcard
-                  goes: copiedCard.goes + 1, // the minion spawned by the battlecry should
-                  // go to the right of the minion
-                  buffs: [],
-                },
-              );
-            });
+          this.addCard( // prune the object from the api before calling addcard
+            {
+              img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
+              minion_type: 14,
+              children: [],
+              attack: 1,
+              health: 1,
+              name: 'Murloc Scout',
+              cardid: 420691,
+              text: 'flavor text v2',
+              keywords: [],
+              inHand: false,
+              goes: copiedCard.goes + 1,
+              buffs: [],
+            },
+          );
           break;
         default:
       }

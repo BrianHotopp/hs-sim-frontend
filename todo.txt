@@ -11,3 +11,4 @@
     - also if we do all battlecries at once and don't distinguish between token battlecries and non-token battlecries, if there are 6 minions on board when we play a token battlecry
         that token will get onto the board and prevent the original minion from being played
     - playing the minion must happen before hooks are triggered because floating watcher buffs itself if there is a wrath weaver
+- inHand should probably get changed to onboard
