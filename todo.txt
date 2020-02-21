@@ -12,3 +12,8 @@
         that token will get onto the board and prevent the original minion from being played
     - playing the minion must happen before hooks are triggered because floating watcher buffs itself if there is a wrath weaver
 - inHand should probably get changed to onboard
+- somehow I have to deal with the scenario of playing the following minions from hand (in rafaam's case) currently the api isn't able to pull them up:
+    - murloc scout
+    - tabbycat
+    - curator's amalgam
+- implement all the hooks

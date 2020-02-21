@@ -25,7 +25,7 @@ export default new Vuex.Store({
       console.log('attempting to add card');
       // put the copiedcard in our board
       state.board.splice(copiedCard.goes, 0, copiedCard);
-      // let timesDamagedThisTurn = 0;
+      let timesDamagedThisTurn = 0;
       switch (copiedCard.name) {
         case 'Rockpool Hunter':
           // buff the element which is specified by the 0th
@@ -36,7 +36,7 @@ export default new Vuex.Store({
           }
           break;
         case 'Vulgar Homunculus':
-          // timesDamagedThisTurn += 1;
+          timesDamagedThisTurn += 1;
           break;
         case 'Coldlight Seer':
           // give plus 2 health to all murlocs
@@ -118,16 +118,55 @@ export default new Vuex.Store({
           state.board[copiedCard.buffs[0]].attack += 2;
           break;
         case 'Strongshell Scavenger':
+          for (let i = 0; i < state.board.length; i += 1) {
+            // if there is a taunt minion
+            state.board[i].keywords.includes(1);
+            state.board[i].health += 2;
+            state.board[i].attack += 2;
+          }
           break;
         case 'Menagerie Magician':
+          if (copiedCard.buffs[0] !== -1) {
+            // if copiedCard.buffs[0] == -1, it means there is no beast to be buffed
+            state.board[copiedCard.buffs[0]].health += 2;
+            state.board[copiedCard.buffs[0]].attack += 2;
+          }
+          // this is the index of the dragon to be buffed
+          if (copiedCard.buffs[1] !== -1) {
+            // if copiedCard.buffs[1] == -1, it means there is no dragon to be buffed
+            state.board[copiedCard.buffs[1]].health += 2;
+            state.board[copiedCard.buffs[1]].attack += 2;
+          }
+          // this is the index of the murloc to be buffed
+          if (copiedCard.buffs[2] !== -1) {
+            // if copiedCard.buffs[2] == -1, it means there is no murloc to be buffed
+            state.board[copiedCard.buffs[2]].health += 2;
+            state.board[copiedCard.buffs[2]].attack += 2;
+          }
           break;
         case 'Virmen Sensei':
+          if (copiedCard.buffs[0] !== -1) {
+            // if copiedCard.buffs[2] == -1, it means there is no beast to be buffed
+            state.board[copiedCard.buffs[0]].health += 2;
+            state.board[copiedCard.buffs[0]].attack += 2;
+          }
           break;
         case 'King Bagurgle':
+          // give plus 2 health to all murlocs
+          for (let i = 0; i < state.board.length; i += 1) {
+            if (state.board[i].minion_type === 14) {
+              state.board[i].health += 2;
+            }
+            // todo buff minions with minion_type = allminions
+          }
           break;
         case 'Annihilan Battlemaster':
+          // this one also confuses me
           break;
         default:
+          if (timesDamagedThisTurn) {
+            console.log('compile');
+          }
                   // code block
       }
       switch (copiedCard.name) {
