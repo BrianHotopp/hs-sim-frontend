@@ -17,6 +17,7 @@
     - tabbycat
     - curator's amalgam
 - implement all the hooks // done except for brann
+- figure out exactly what attributes each minion should have
 - find a better image for tokens tabbycat and murloc scout
 - implement magnetic minions as battlecries
 - factor battlecries out of addcard so brann can be implemented as a card with a hook

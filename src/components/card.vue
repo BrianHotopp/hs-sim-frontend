@@ -25,7 +25,7 @@
       ref="modal"
       title="Edit Minion"      
       @ok="handleOk"
-    >    
+    >
     {{copyBeingEdited.name}} 
     </b-modal>
   </div>
@@ -59,6 +59,16 @@ export default {
     },
     removefromboard() {
       this.$store.commit('removeCard', this.aCard);
+    },
+    handleOk() {
+      if(this.aCard.inHand) {
+        // if the card was in hand
+        // copy all enumerable properties from
+        // the copy of aCard being edited to aCard itself.
+        Object.assign(this.aCard, copyBeingEdited);
+      } else{
+        this.$store.commit('addCard', this.copyBeingEdited);
+      }    
     }
   },
 };
