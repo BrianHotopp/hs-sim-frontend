@@ -32,7 +32,7 @@ export default new Vuex.Store({
       };
       const tabbyCat = {
         img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
-        minion_type: 0,
+        minion_type: 20,
         children: [],
         attack: 1,
         health: 1,
@@ -220,7 +220,56 @@ export default new Vuex.Store({
       for (let i = 0; i < state.board.length; i += 1) {
         // it feels bad to go through all possible minions
         // for every minion on the board but it is constant time
-        console.log('hooked');
+        switch (state.board[i].name) {
+          case 'Murloc Tidecaller':
+            if (copiedCard.minion_type === 14 && !(copiedCard === state.board[i])) {
+              // the second part of this conditional prevents tidecaller
+              // from buffing itself when played
+              // if a murloc was just played
+              state.board[i].attack += 1;
+            }
+            break;
+          case 'Cobalt Guardian':
+            if (copiedCard.minion_type === 17 && !(copiedCard === state.board[i])) {
+              // if a murloc was just played
+              if (!state.board[i].keywords.includes(3)) {
+                // give the cobalt divine shield if it doesn't already have it
+                state.board[i].keywords.push(3);
+              }
+            }
+            break;
+          case 'Crowd Favorite':
+            if (copiedCard.keywords.includes(8)) {
+              // if the played minion had a battlecry
+              state.board[i].health += 2;
+              state.board[i].attack += 2;
+            }
+            break;
+          case 'Pack Leader':
+            if (copiedCard.minion_type === 20 && !(copiedCard === state.board[i])) {
+              // if a beast was just played
+              copiedCard.attack += 3;
+            }
+            break;
+          case 'Mama Bear':
+            if ((copiedCard.minion_type === 20) && !(copiedCard === state.board[i])) {
+              // if a beast just got played
+              copiedCard.attack += 4;
+              copiedCard.health += 4;
+            }
+            break;
+          case 'Wrath Weaver':
+            if ((copiedCard.minion_type === 15)) {
+              // if a demon was just played
+              timesDamagedThisTurn += 1;
+            }
+            break;
+          case 'Floating Watcher':
+            state.board[i].attack += 2;
+            state.board[i].health += 2;
+            break;
+          default:
+        }
       }
     },
   },
