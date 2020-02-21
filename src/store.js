@@ -16,6 +16,34 @@ export default new Vuex.Store({
       const copiedCard = { ...cardFromApi };
       copiedCard.inHand = true;
       console.log(cardFromApi);
+      const murlocScout = {
+        img: 'https://media.hearthpwn.com/avatars/412/187/486.png',
+        minion_type: 14,
+        children: [],
+        attack: 1,
+        health: 1,
+        name: 'Murloc Scout',
+        cardid: 420691,
+        text: 'flavor text v2',
+        keywords: [],
+        inHand: false,
+        goes: copiedCard.goes + 1,
+        buffs: [],
+      };
+      const tabbyCat = {
+        img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
+        minion_type: 0,
+        children: [],
+        attack: 1,
+        health: 1,
+        name: 'Tabbycat',
+        cardid: 420690,
+        text: 'welcome to flavortown',
+        keywords: [],
+        inHand: false,
+        goes: copiedCard.goes + 1,
+        buffs: [],
+      };
       if (state.board.length >= 7) {
         console.log('unable to add card because there was no space on the board');
         // complain about trying to add too many cards to board
@@ -175,22 +203,7 @@ export default new Vuex.Store({
       // now we do our toeken battlecries
       switch (copiedCard.name) {
         case 'Alleycat':
-          this.addCard(
-            {
-              img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
-              minion_type: 0,
-              children: [],
-              attack: 1,
-              health: 1,
-              name: 'Tabbycat',
-              cardid: 420690,
-              text: 'welcome to flavortown',
-              keywords: [],
-              inHand: false,
-              goes: copiedCard.goes + 1,
-              buffs: [],
-            },
-          );
+          this.commit('addCard', tabbyCat);
           break;
         case 'Pogo-Hopper':
           copiedCard.health += (2 * state.pogo_count);
@@ -198,28 +211,16 @@ export default new Vuex.Store({
           break;
         case 'Murloc Tidehunter':
           // code block
-          this.addCard(
-            {
-              img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
-              minion_type: 14,
-              children: [],
-              attack: 1,
-              health: 1,
-              name: 'Murloc Scout',
-              cardid: 420691,
-              text: 'flavor text v2',
-              keywords: [],
-              inHand: false,
-              goes: copiedCard.goes + 1,
-              buffs: [],
-            },
-          );
+          this.commit('addCard', murlocScout);
+
           break;
         default:
       }
       // now we should deal with hooks
       for (let i = 0; i < state.board.length; i += 1) {
-        console.log('stop complaining');
+        // it feels bad to go through all possible minions
+        // for every minion on the board but it is constant time
+        console.log('hooked');
       }
     },
   },

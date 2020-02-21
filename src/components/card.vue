@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <h5 class="card-title">
-      {{this.aCard.name}}
+      {{this.aCard.name}} {{this.aCard.attack}}/{{this.aCard.health}}
     </h5>
     <!--only want to present the option to add to hand if the card is not in hand already-->
     <button v-if="!aCard.inHand" @click="click" class="btn btn-primary">Play</button>
