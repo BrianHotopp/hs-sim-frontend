@@ -9,11 +9,28 @@
       {{this.aCard.name}} {{this.aCard.attack}}/{{this.aCard.health}}
     </h5>
     <!--only want to present the option to add to hand if the card is not in hand already-->
-    <button v-if="!aCard.inHand" @click="click" class="btn btn-primary">Play</button>
+    <button v-if="!aCard.inHand" @click="playtoboard" class="btn btn-primary">Play</button>
+    <button v-if="aCard.inHand" @click="removefromboard" class="btn btn-danger">Remove</button>
     <!-- there is an edit button on all cards no matter what -->
-    <button type="button" class="btn btn-secondary">
+   
+    <div>
+      <button @click="upmodal" class="btn btn-secondary">
           <font-awesome-icon icon="edit" />
     </button>
+    
+
+    <b-modal
+      v-if="show"
+      v-model="show"
+      ref="modal"
+      title="Edit Minion"      
+      @ok="handleOk"
+    >    
+    {{copyBeingEdited.name}} 
+    </b-modal>
+  </div>
+       
+    
   </div>
 </div>
 </template>
@@ -21,11 +38,28 @@
 export default {
   name: 'card',
   props: ['aCard'],
+  data() {
+    return {
+      show: false,
+      // we initialize the copy being edited to null because otherwise there would be an extra
+      // object being copied for every minion in the list
+      // this makes it so that copies are only created for minions which are edited
+      copyBeingEdited: null,
+    };
+  },
   methods: {
-    click() {
+    upmodal(){
+      this.show = true;
+      this.copyBeingEdited = JSON.parse(JSON.stringify(this.aCard));
+
+    },
+    playtoboard() {
       console.log(this.aCard);
       this.$store.commit('addCard', this.aCard);
     },
+    removefromboard() {
+      this.$store.commit('removeCard', this.aCard);
+    }
   },
 };
 </script>

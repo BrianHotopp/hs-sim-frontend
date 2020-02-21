@@ -272,5 +272,11 @@ export default new Vuex.Store({
         }
       }
     },
+    removeCard(state, card) {
+      // find the index of the card to remove
+      // remove the card from the hand at that index
+      const index = state.board.indexOf(card);
+      state.board.splice(index, 1);
+    },
   },
 });

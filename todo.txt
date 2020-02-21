@@ -1,6 +1,6 @@
 - should keywords be a set data structure instead of a list
 - I should protect against buffs being given to the wrong minions
-- Raw modifying minions at buffs[n] index in my state.board is likely to cause array out of bounds errors and I should check for that
+- Raw modifying minions at buffs[n] index in my state.board is likely to cause array out of bounds errors and I should check for that (argus is broken as a result)
 - Token summon battlecries are broken
 - logic in add card should look like:
     1) non token battlecries for a minion
@@ -16,7 +16,8 @@
     - murloc scout
     - tabbycat
     - curator's amalgam
-- implement all the hooks
+- implement all the hooks // done except for brann
 - find a better image for tokens tabbycat and murloc scout
 - implement magnetic minions as battlecries
 - factor battlecries out of addcard so brann can be implemented as a card with a hook
+- deal with golden status improving board affecting battlecries and golden hooks eg tidecaller/brann

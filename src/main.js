@@ -16,7 +16,6 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
-
 // uncomment the below line if I want to set custom scss values
 // import './custom.scss'
 new Vue({
