@@ -1,7 +1,6 @@
 // import Axios from 'axios';
 import Vuex from 'vuex';
 import Vue from 'vue';
-import Axios from 'axios';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -22,9 +21,7 @@ export default new Vuex.Store({
         // complain about trying to add too many cards to board
         return;
       }
-      console.log('attempting to add card');
-      // put the copiedcard in our board
-      state.board.splice(copiedCard.goes, 0, copiedCard);
+
       let timesDamagedThisTurn = 0;
       switch (copiedCard.name) {
         case 'Rockpool Hunter':
@@ -84,6 +81,12 @@ export default new Vuex.Store({
             state.board[copiedCard.buffs[2]].health += 1;
             state.board[copiedCard.buffs[2]].attack += 1;
           }
+          break;
+        case 'Cobalt Guardian':
+          // we have to get rid of cobalt guardian's divine shield status when we play it
+          // for some reason it comes with the divine shield
+          // we will give it back its divine shield if we play a mech
+          copiedCard.keywords = [];
           break;
         case 'Crystalweaver':
           for (let i = 0; i < state.board.length; i += 1) {
@@ -164,14 +167,15 @@ export default new Vuex.Store({
           // this one also confuses me
           break;
         default:
-          if (timesDamagedThisTurn) {
-            console.log('compile');
-          }
-                  // code block
       }
+      // now that we have performed all non token battlecries, we should add the card to the board
+      console.log('attempting to add card');
+      // put the copiedcard in our board
+      state.board.splice(copiedCard.goes, 0, copiedCard);
+      // now we do our toeken battlecries
       switch (copiedCard.name) {
         case 'Alleycat':
-          this.addCard( // prune the object from the api before calling addcard
+          this.addCard(
             {
               img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
               minion_type: 0,
@@ -194,7 +198,7 @@ export default new Vuex.Store({
           break;
         case 'Murloc Tidehunter':
           // code block
-          this.addCard( // prune the object from the api before calling addcard
+          this.addCard(
             {
               img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
               minion_type: 14,
@@ -213,13 +217,10 @@ export default new Vuex.Store({
           break;
         default:
       }
+      // now we should deal with hooks
+      for (let i = 0; i < state.board.length; i += 1) {
+        console.log('stop complaining');
+      }
     },
   },
 });
-// export default {
-//   state: {
-//     pogo_count: 0,
-//     card_list: [],
-//   },
-
-// };
