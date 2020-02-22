@@ -1,6 +1,6 @@
 import hooks from './hooks';
 
-export default function battlecries(state, playedcard, indexplayedat = 0) {
+export default function battlecries(state, playedcard, indexplayedat = 0, bufftargets = []) {
 // takes in the app's internal state, and a card that was just played
 // executes all battlecries for this card
 // modifies: minions on the board other than the one which is the argument playedcard
@@ -31,9 +31,6 @@ export default function battlecries(state, playedcard, indexplayedat = 0) {
   };
   switch (playedcard.name) {
     case 'Rockpool Hunter':
-      // buff the element which is specified by the 0th
-      // element in the card's buffs array
-      // todo implement
       break;
     case 'Vulgar Homunculus':
       state.timesdamaged += 1;
@@ -156,8 +153,12 @@ export default function battlecries(state, playedcard, indexplayedat = 0) {
       break;
 
     case 'Alleycat':
-      state
-        .state.commit('addCard', tabbyCat);
+      if (state.board.length < 7) { // there is boardspace
+        const tabbyCopy = JSON.parse(JSON.stringify(tabbyCat));
+        tabbyCopy.location = 2;
+        state.board.splice(indexplayedat + 1, 0, tabbyCopy);
+        hooks(state, tabbyCopy);
+      }
       break;
     case 'Pogo-Hopper':
       playedcard.health += (2 * state.pogo_count);
@@ -165,8 +166,12 @@ export default function battlecries(state, playedcard, indexplayedat = 0) {
       break;
     case 'Murloc Tidehunter':
       // code block
-      state.commit('addCard', murlocScout);
-
+      if (state.board.length < 7) { // there is boardspace
+        const scoutCopy = JSON.parse(JSON.stringify(murlocScout));
+        scoutCopy.location = 2;
+        state.board.splice(indexplayedat + 1, 0, scoutCopy);
+        hooks(state, scoutCopy);
+      }
       break;
     default:
   }

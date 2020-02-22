@@ -22,7 +22,7 @@ export default new Vuex.Store({
       // add card to board
       state.hand.push(copiedCard);
     },
-    playToBoard(state, cardtoadd, indextoaddat = 0) {
+    playToBoard(state, cardtoadd, indextoaddat = 0, bufftargets = []) {
       const copiedCard = { ...cardtoadd };
       copiedCard.location = 2;
 
@@ -32,7 +32,7 @@ export default new Vuex.Store({
       }
       // add card to board
       state.board.splice(indextoaddat, 0, copiedCard);
-      battlecries(state, copiedCard, indextoaddat);
+      battlecries(state, copiedCard, indextoaddat, bufftargets);
       console.log('performed battlecries');
       hooks(state, copiedCard);
       console.log('performed hooks');
@@ -40,11 +40,11 @@ export default new Vuex.Store({
     removeCard(state, card) {
       // find the index of the card to remove
       // remove the card from the hand at that index
-      if (card.inHand === 1) { // the card is in hand
+      if (card.location === 1) { // the card is in hand
         const index = state.hand.indexOf(card);
         state.hand.splice(index, 1);
       }
-      if (card.inHand === 2) { // the card is on the board
+      if (card.location === 2) { // the card is on the board
         const index = state.board.indexOf(card);
         state.board.splice(index, 1);
       }
