@@ -9,7 +9,17 @@ v-model="showmodal"
 title="Edit Minion"      
 @ok="playedited"
 >
-{{copyBeingEdited.name}} 
+<b-container fluid>
+    <b-form-checkbox
+      id="checkbox-1"
+      v-model="copyBeingEdited.taunt"
+      name="checkbox-1"
+      value="accepted"
+      unchecked-value="not_accepted"
+    >
+      
+    </b-form-checkbox>
+</b-container>
 </b-modal>
 
 </div>

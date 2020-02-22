@@ -14,19 +14,20 @@ export default new Vuex.Store({
     timesdamaged: 0,
   },
   mutations: {
-    addCard(state, cardFromApi) {
-      const copiedCard = { ...cardFromApi };
+    addCard(state, cardtoadd, indextoaddat = 0) {
+      const copiedCard = { ...cardtoadd };
       copiedCard.inHand = true;
-      console.log(cardFromApi);
+      console.log(cardtoadd);
       if (state.board.length >= 7) {
         console.log('unable to add card because there was no space on the board');
         return;
       }
       // add card to board
-      state.board.splice(copiedCard.goes, 0, copiedCard);
-      battlecries(state, copiedCard);
+      state.board.splice(indextoaddat, 0, copiedCard);
+      battlecries(state, copiedCard, indextoaddat);
       console.log('performed battlecries');
       hooks(state, copiedCard);
+      console.log('performed hooks');
     },
     removeCard(state, card) {
       // find the index of the card to remove

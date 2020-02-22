@@ -1,4 +1,6 @@
-export default function battlecries(state, playedcard) {
+import hooks from './hooks';
+
+export default function battlecries(state, playedcard, indexplayedat) {
 // takes in the app's internal state, and a card that was just played
 // executes all battlecries for this card
 // modifies: minions on the board other than the one which is the argument playedcard
@@ -14,8 +16,6 @@ export default function battlecries(state, playedcard) {
     text: 'flavor text v2',
     keywords: [],
     inHand: false,
-    goes: playedcard.goes + 1,
-    buffs: [],
   };
   const tabbyCat = {
     img: 'https://gamepedia.cursecdn.com/hearthstone_gamepedia/6/6b/Tabbycat_full.jpg?version=aa6c91556797bb88a0151344c587c319',
@@ -28,17 +28,12 @@ export default function battlecries(state, playedcard) {
     text: 'welcome to flavortown',
     keywords: [],
     inHand: false,
-    goes: playedcard.goes + 1,
-    buffs: [],
   };
   switch (playedcard.name) {
     case 'Rockpool Hunter':
       // buff the element which is specified by the 0th
       // element in the card's buffs array
-      if (playedcard.buffs[0] !== -1) {
-        state.board[playedcard.buffs[0]].health += 1;
-        state.board[playedcard.buffs[0]].attack += 1;
-      }
+      // todo implement
       break;
     case 'Vulgar Homunculus':
       state.timesdamaged += 1;
@@ -64,31 +59,8 @@ export default function battlecries(state, playedcard) {
       }
       break;
     case 'Nathrezim Overseer':
-      if (playedcard.buffs[0] !== -1) {
-        state.board[playedcard.buffs[0]].health += 2;
-        state.board[playedcard.buffs[0]].attack += 2;
-      }
       break;
     case 'Zoobot':
-      // todo allow the user to select which minions to buff
-      // this is the index of the beast to be buffed
-      if (playedcard.buffs[0] !== -1) {
-        // if playedcard.buffs[0] == -1, it means there is no beast to be buffed
-        state.board[playedcard.buffs[0]].health += 1;
-        state.board[playedcard.buffs[0]].attack += 1;
-      }
-      // this is the index of the dragon to be buffed
-      if (playedcard.buffs[1] !== -1) {
-        // if playedcard.buffs[1] == -1, it means there is no dragon to be buffed
-        state.board[playedcard.buffs[1]].health += 1;
-        state.board[playedcard.buffs[1]].attack += 1;
-      }
-      // this is the index of the murloc to be buffed
-      if (playedcard.buffs[2] !== -1) {
-        // if playedcard.buffs[2] == -1, it means there is no murloc to be buffed
-        state.board[playedcard.buffs[2]].health += 1;
-        state.board[playedcard.buffs[2]].attack += 1;
-      }
       break;
     case 'Cobalt Guardian':
       // we have to get rid of cobalt guardian's divine shield status when we play it
@@ -107,10 +79,18 @@ export default function battlecries(state, playedcard) {
     case 'Defender of Argus':
       // figure out how to control where the minion goes
       // there are bugs here when there aren't minions on both sides getting buffed
-      state.board[playedcard.goes + 1].health += 1;
-      state.board[playedcard.goes + 1].attack += 1;
-      state.board[playedcard.goes - 1].health += 1;
-      state.board[playedcard.goes - 1].attack += 1;
+      // attempt to play buff on right:
+      if (indexplayedat !== (state.board.length - 1)) {
+        state.board[indexplayedat + 1].health += 1;
+        state.board[indexplayedat + 1].attack += 1;
+        if (state.board[indexplayedat + 1]) { // minion does not yet have taunt
+
+        }
+      }
+      if (indexplayedat !== 0) {
+        state.board[indexplayedat - 1].health += 1;
+        state.board[indexplayedat - 1].attack += 1;
+      }
       state.board[playedcard.goes + 1].keywords.push(1);
       state.board[playedcard.goes - 1].keywords.push(1);
       break;
@@ -177,7 +157,8 @@ export default function battlecries(state, playedcard) {
       break;
 
     case 'Alleycat':
-      state.commit('addCard', tabbyCat);
+      state
+        .state.commit('addCard', tabbyCat);
       break;
     case 'Pogo-Hopper':
       playedcard.health += (2 * state.pogo_count);
