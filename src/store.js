@@ -9,15 +9,23 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     board: [],
+    hand: [],
     hp: 40,
     pogo_count: 0,
     timesdamaged: 0,
   },
   mutations: {
-    addCard(state, cardtoadd, indextoaddat = 0) {
+    moveToHand(state, cardtoadd) {
       const copiedCard = { ...cardtoadd };
-      copiedCard.inHand = true;
-      console.log(cardtoadd);
+      copiedCard.location = 1;
+
+      // add card to board
+      state.hand.push(copiedCard);
+    },
+    playToBoard(state, cardtoadd, indextoaddat = 0) {
+      const copiedCard = { ...cardtoadd };
+      copiedCard.location = 2;
+
       if (state.board.length >= 7) {
         console.log('unable to add card because there was no space on the board');
         return;
@@ -32,8 +40,14 @@ export default new Vuex.Store({
     removeCard(state, card) {
       // find the index of the card to remove
       // remove the card from the hand at that index
-      const index = state.board.indexOf(card);
-      state.board.splice(index, 1);
+      if (card.inHand === 1) { // the card is in hand
+        const index = state.hand.indexOf(card);
+        state.hand.splice(index, 1);
+      }
+      if (card.inHand === 2) { // the card is on the board
+        const index = state.board.indexOf(card);
+        state.board.splice(index, 1);
+      }
     },
   },
 });

@@ -9,9 +9,9 @@
       {{this.aCard.name}} {{this.aCard.attack}}/{{this.aCard.health}}
     </h5>
     <!--only want to present the option to add to hand if the card is not in hand already-->
-    <button v-if="!aCard.inHand" @click="playtoboard" class="btn btn-primary">Play</button>
-    <button v-if="aCard.inHand" @click="removefromboard" class="btn btn-danger">Remove</button>
-    <!-- there is an edit button on all cards no matter what -->
+    <button v-if="aCard.location === 0" @click="playtohand" class="btn btn-primary">Add to hand</button>
+    <button v-if="aCard.location" @click="remove" class="btn btn-danger">Remove</button>
+    <button v-if="aCard.location" @click="playtoboard" class="btn btn-success">Play to Board</button>
    
     <div>
       <button @click="showchildmodal = true;" class="btn btn-secondary">
@@ -39,11 +39,14 @@ export default {
     }
   },
   methods: {
-    playtoboard() {
+    playtohand() {
       console.log(this.aCard);
-      this.$store.commit('addCard', this.aCard);
+      this.$store.commit('moveToHand', this.aCard);
     },
-    removefromboard() {
+    playtoboard(){
+      this.$store.commit('playToBoard', this.aCard); // index to add at omitted here
+    },
+    remove() {
       this.$store.commit('removeCard', this.aCard);
     },
   },

@@ -78,7 +78,8 @@ export default {
             this.results.push(parseminion(result));
           }
         });
-      this.search_term = 'done';
+      this.search_term = '';
+      console.log('api query finished');
     },
   },
 };

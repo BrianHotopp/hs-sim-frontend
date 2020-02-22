@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <board></board>
+    <hand></hand>
     <search></search>
   </div>
 </template>
 
 <script>
 import board from './components/board.vue';
+import hand from './components/hand.vue'
 import search from './components/search.vue';
 
 export default {
   name: 'App',
   components: {
     board,
+    hand,
     search,
   },
 };

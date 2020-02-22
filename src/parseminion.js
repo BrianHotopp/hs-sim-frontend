@@ -1,4 +1,5 @@
 export default function parseminion(miniontoparse) {
+  console.log(miniontoparse);
   const parsedminion = {
     img: miniontoparse.battlegrounds.image,
     minion_type: miniontoparse.minionTypeId, // an int representing murloc, beast etc
@@ -19,29 +20,31 @@ export default function parseminion(miniontoparse) {
       golden_microbots: 0,
       battlecry: 0,
     },
-    inHand: false, // determines whether or not to show play me button on card component
+    location: 0, // determines whether or not to show play me button on card component
   };
   // go through the keywords of the passed in minion
   // adjust the keywords object of the parsedminion to reflect them
-  for (let i = 0; i < miniontoparse.keywordIds.length; i += 1) {
-    switch (miniontoparse.keywordIds[i]) {
-      case 1:
-        parsedminion.keywords.taunt = 1;
-        break;
-      case 2:
-        parsedminion.keywords.dshield = 1;
-        break;
-      case 32:
-        parsedminion.keywords.poison = 1;
-        break;
-      case 11:
-        parsedminion.keywords.windfury = 1;
-        break;
-      case 8:
-        // we only need to know if the minion has a battlecry so we can buff crowd favorite
-        parsedminion.keywords.battlcry = 1;
-        break;
-      default:
+  if (miniontoparse.keywordIds) { // only go through if there are keywords
+    for (let i = 0; i < miniontoparse.keywordIds.length; i += 1) {
+      switch (miniontoparse.keywordIds[i]) {
+        case 1:
+          parsedminion.keywords.taunt = 1;
+          break;
+        case 2:
+          parsedminion.keywords.dshield = 1;
+          break;
+        case 32:
+          parsedminion.keywords.poison = 1;
+          break;
+        case 11:
+          parsedminion.keywords.windfury = 1;
+          break;
+        case 8:
+          // we only need to know if the minion has a battlecry so we can buff crowd favorite
+          parsedminion.keywords.battlcry = 1;
+          break;
+        default:
+      }
     }
   }
   return parsedminion;

@@ -22,8 +22,7 @@
 - implement magnetic minions as battlecries
 - factor battlecries out of addcard so brann can be implemented as a card with a hook
 - deal with golden status improving board affecting battlecries and golden hooks eg tidecaller/brann
-
-
+- fix tabbycat and murloc scout spawning
 
 {
 img: result.battlegrounds.image,

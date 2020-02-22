@@ -1,11 +1,11 @@
 <template>
 <div>
     <b-container>
-      <b-row>
-            <h1>Board</h1>
+        <b-row>
+            <h1>Hand</h1>
         </b-row>
         <b-row>
-            <b-col v-for="minion in board" :key = minion.id>
+            <b-col v-for="minion in hand" :key = minion.id>
                 <card :aCard = minion></card>
             </b-col>
         </b-row>
@@ -18,7 +18,7 @@
 import card from './card.vue';
 
 export default {
-  name: 'board',
+  name: 'hand',
   data() {
     return {
     };
@@ -27,8 +27,8 @@ export default {
     card,
   },
   computed: {
-    board() {
-      return this.$store.state.board;
+    hand() {
+      return this.$store.state.hand;
     },
   },
 };

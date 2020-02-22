@@ -1,6 +1,6 @@
 import hooks from './hooks';
 
-export default function battlecries(state, playedcard, indexplayedat) {
+export default function battlecries(state, playedcard, indexplayedat = 0) {
 // takes in the app's internal state, and a card that was just played
 // executes all battlecries for this card
 // modifies: minions on the board other than the one which is the argument playedcard
@@ -48,7 +48,6 @@ export default function battlecries(state, playedcard, indexplayedat) {
       }
       break;
     case 'Metaltooth Leaper':
-      console.log('boob');
       // give plus 2 attack to all mechs
       for (let i = 0; i < state.board.length; i += 1) {
         console.log(state.board[i].minion_type);
