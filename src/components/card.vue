@@ -14,45 +14,31 @@
     <!-- there is an edit button on all cards no matter what -->
    
     <div>
-      <button @click="upmodal" class="btn btn-secondary">
+      <button @click="showchildmodal = true;" class="btn btn-secondary">
           <font-awesome-icon icon="edit" />
     </button>
-    
+    <div v-if="showchildmodal">
+    <editmenu :cardToEdit = aCard :open = showchildmodal></editmenu>
+    </div>
 
-    <b-modal
-      v-if="show"
-      v-model="show"
-      ref="modal"
-      title="Edit Minion"      
-      @ok="handleOk"
-    >
-    {{copyBeingEdited.name}} 
-    </b-modal>
   </div>
-       
-    
   </div>
 </div>
 </template>
 <script>
+import editmenu from './editmenu';
 export default {
   name: 'card',
   props: ['aCard'],
-  data() {
+  components:{
+    editmenu,
+  },
+  data(){
     return {
-      show: false,
-      // we initialize the copy being edited to null because otherwise there would be an extra
-      // object being copied for every minion in the list
-      // this makes it so that copies are only created for minions which are edited
-      copyBeingEdited: null,
-    };
+      showchildmodal: false,
+    }
   },
   methods: {
-    upmodal(){
-      this.show = true;
-      this.copyBeingEdited = JSON.parse(JSON.stringify(this.aCard));
-
-    },
     playtoboard() {
       console.log(this.aCard);
       this.$store.commit('addCard', this.aCard);
@@ -60,16 +46,6 @@ export default {
     removefromboard() {
       this.$store.commit('removeCard', this.aCard);
     },
-    handleOk() {
-      if(this.aCard.inHand) {
-        // if the card was in hand
-        // copy all enumerable properties from
-        // the copy of aCard being edited to aCard itself.
-        Object.assign(this.aCard, copyBeingEdited);
-      } else{
-        this.$store.commit('addCard', this.copyBeingEdited);
-      }    
-    }
   },
 };
 </script>
