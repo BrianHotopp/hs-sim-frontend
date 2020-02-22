@@ -22,3 +22,29 @@
 - implement magnetic minions as battlecries
 - factor battlecries out of addcard so brann can be implemented as a card with a hook
 - deal with golden status improving board affecting battlecries and golden hooks eg tidecaller/brann
+
+
+
+{
+img: result.battlegrounds.image,
+minion_type: result.minionTypeId, // an int representing murloc, beast etc
+children: result.childIds, // minions associated with the current minion
+// eg alleycat has tabbycat's id in its children array
+attack: result.attack,
+health: result.health,
+name: result.name,
+cardid: result.id, // id unique to the minion
+text: result.flavorText,
+keywords: result.keywordIds, // numbers representing taunt, dshield, etc
+inHand: false, // determines whether or not to show play me button on card component
+goes: 0, // an indicator of where on the board this minion should go if we add
+// it to the board using addCard in store.js
+buffs: null, // an array of integers
+// these integers are indices in this.$store.board
+// indicating where the minion's buffs should go
+// for minions that only buff one minion, buffs will contain one elment which
+// indicates the minion they buff
+// for minions that buff like 3 minions, there will be 3 integers and so on
+microbots: 0,
+plants: 0,
+},
