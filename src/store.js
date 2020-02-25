@@ -15,15 +15,17 @@ export default new Vuex.Store({
     timesdamaged: 0,
   },
   mutations: {
-    moveToHand(state, cardtoadd) {
-      const copiedCard = { ...cardtoadd };
+    moveToHand(state, payload) {
+      const copiedCard = { ...payload.cardtoadd };
       copiedCard.location = 1;
 
       // add card to board
+
       state.hand.push(copiedCard);
     },
-    playToBoard(state, cardtoadd, indextoaddat = 0, bufftargets = []) {
-      const copiedCard = { ...cardtoadd };
+    playToBoard(state, payload) {
+      console.log(payload.indextoaddat);
+      const copiedCard = { ...payload.cardtoadd };
       copiedCard.location = 2;
 
       if (state.board.length >= 7) {
@@ -31,8 +33,8 @@ export default new Vuex.Store({
         return;
       }
       // add card to board
-      state.board.splice(indextoaddat, 0, copiedCard);
-      battlecries(state, copiedCard, indextoaddat, bufftargets);
+      state.board.splice(payload.indextoaddat, 0, copiedCard);
+      battlecries(state, copiedCard, payload.indextoaddat, payload.bufftargets);
       console.log('performed battlecries');
       hooks(state, copiedCard);
       console.log('performed hooks');

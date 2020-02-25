@@ -21,7 +21,7 @@ import parseminion from '../parseminion'
 const blizzardAPI = axios.create({
   baseURL: 'https://us.api.blizzard.com/hearthstone',
   headers: {
-    Authorization: 'Bearer USCIW9CjIzDz2NGiWOyDj81VMITjjSutlD',
+    Authorization: 'Bearer US4VQJbDOtFDUHeS5jWu0w7813lj3BK9cL',
   },
 });
 export default {

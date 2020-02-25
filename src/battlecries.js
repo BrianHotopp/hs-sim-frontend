@@ -31,6 +31,27 @@ export default function battlecries(state, playedcard, indexplayedat = 0, buffta
   };
   switch (playedcard.name) {
     case 'Rockpool Hunter':
+      if (bufftargets.length) { // the user specified which minion to buff
+        // buff the health and attack on that minion
+        state.board[bufftargets[0]].attack += 1;
+        state.board[bufftargets[0]].health += 1;
+      } else { // the user did not specify which mininos to buff
+        // randomly select minions to buff
+        // generate list of murlocs currently on the board
+        const murlocindices = [];
+        let selection;
+        for (let i = 0; i < state.board.length; i += 1) {
+          if (state.board[i].minion_type === 14 && (state.board[i] !== playedcard)) {
+            murlocindices.push(i);
+          }
+        }
+        if (murlocindices.length) {
+          selection = murlocindices[Math.floor(Math.random() * murlocindices.length)];
+        }
+        // buff the health and attack on that minion
+        state.board[murlocindices[selection]].attack += 1;
+        state.board[murlocindices[selection]].health += 1;
+      }
       break;
     case 'Vulgar Homunculus':
       state.timesdamaged += 1;
@@ -55,6 +76,27 @@ export default function battlecries(state, playedcard, indexplayedat = 0, buffta
       }
       break;
     case 'Nathrezim Overseer':
+      if (bufftargets.length) { // the user specified which minion to buff
+        // buff the health and attack on that minion
+        state.board[bufftargets[0]].attack += 2;
+        state.board[bufftargets[0]].health += 2;
+      } else { // the user did not specify which mininos to buff
+        // randomly select minions to buff
+        // generate list of murlocs currently on the board
+        const demonindices = [];
+        let indextobuff;
+        for (let i = 0; i < state.board.length; i += 1) {
+          if (state.board[i].minion_type === 15 && (state.board[i] !== playedcard)) {
+            demonindices.push(i);
+          }
+        }
+        if (demonindices.length) {
+          indextobuff = demonindices[Math.floor(Math.random() * demonindices.length)];
+        }
+        // buff the health and attack on that minion
+        state.board[indextobuff].attack += 1;
+        state.board[indextobuff].health += 1;
+      }
       break;
     case 'Zoobot':
       break;
